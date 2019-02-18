@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<servers>
+		<server name="DMIDataServer" listenIP="192.168.0.144" port="9132" workerthreadcount="10"/>
+		<server name="UCCalServer" listenIP="192.168.0.186" port="9133" workerthreadcount="10"/>
+	</servers>
+	
+	<center enable='false'>
+	    <addr ip="28.204.20.182" port="60002" />
+	</center>
+	
+	
+	
+	<registry interval="20"></registry>
+	
+	<monitor interval="5" enable="true"></monitor>
+	
+	<heartBeat interval="5" enable="true"/>
+	
+	<heartBeat-client interval="5" enable="true"/>
+	
+	<monitor-client interval="5" enable="true"/>
+	<link-client enable="true" count="100"/>
+</config>
