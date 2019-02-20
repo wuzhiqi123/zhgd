@@ -51,15 +51,8 @@ public class WorkersServiceImpl implements WorkersService {
                UserExpandMap.put("1",UserExpandmap);
                int lwxxInt = DMIClient.getDMIclient().DMI_UpdateData("RYGL_RYXX_LWXX",UserExpandMap,jsonArray.toString());
                if(lwxxInt == 0){
-                   List<MtxxAdd> mtxxList = mtxx(workers);
-/*                   for(int i =0 ; i<mtxxList.size() ;i++){
-                       JSONObject jsonmtxxAdd=  JSONObject.fromObject(mtxxList.get(i));
-                       Map<String ,String > mtxxAddmap = (Map)jsonmtxxAdd;
-                       Map<String,Map<String ,String>> mtxxAddMap = new HashMap<>();
-                       mtxxAddMap.put(String.valueOf(i+1),mtxxAddmap);
-                       int mtxx = DMIClient.getDMIclient().DMI_UpdateData("RYGL_RYXX_MTXX",mtxxAddMap,jsonArray.toString());
-                   }*/
-                    int mtxx1 = 0;
+                   int mtxx1 = 0;
+ /*                  List<MtxxAdd> mtxxList = mtxx(workers);
                    for(MtxxAdd mtxxAdd :mtxxList){
                        JSONObject jsonmtxxAdd=  JSONObject.fromObject(mtxxAdd);
                        Map<String ,String > mtxxAddmap = (Map)jsonmtxxAdd;
@@ -74,7 +67,7 @@ public class WorkersServiceImpl implements WorkersService {
                            resultError.setDataa("程序错误,员工添加失败");
                            return resultError;
                        }
-                   }
+                   }*/
                   if(mtxx1 == 0){
                       int comit =  DMIClient.getDMIclient().DMI_TransCommit("RYGL_RYXX_JBXX",jsonArray.toString());
                       if(comit == 0){

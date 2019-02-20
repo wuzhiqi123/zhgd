@@ -7,6 +7,7 @@ import com.zhgd.pojo.Jcxx;
 import com.zhgd.service.MonitoringInformationService;
 import com.zhgd.utile.DMIClient;
 import com.zhgd.utile.DateUtile;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,8 +37,14 @@ public class MonitoringInformationServiceImpl implements MonitoringInformationSe
         list.add("GZ");
         list.add("SJSJ");
         try {
+            String sql ;
             Result result = new Result(ResultEnum.OK);
-            String sql = "SJSJ > to_date( '"+ DateUtile.getDateString(new Date(jcxxParma.getStart())) +"','yyyy/mm/dd hh24:mi:ss') and to_date( '"+ DateUtile.getDateString(new Date(jcxxParma.getEnd())) +"','yyyy/mm/dd hh24:mi:ss') > SJSJ ";
+            if(StringUtils.isEmpty(String.valueOf(jcxxParma.getStart()))){
+                sql = "1 =1";
+            }else{
+                sql = "SJSJ > to_date( '"+ DateUtile.getDateString(new Date(jcxxParma.getStart())) +"','yyyy/mm/dd hh24:mi:ss') and to_date( '"+ DateUtile.getDateString(new Date(jcxxParma.getEnd())) +"','yyyy/mm/dd hh24:mi:ss') > SJSJ ";
+            }
+
             Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("ZHGD_HJJC_JCXX", list, null, sql, "");
             for (Map.Entry<Integer, Map<String, String>> jcxx : map.entrySet()) {
                 Jcxx jcxx1 = new Jcxx();
