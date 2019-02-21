@@ -9,6 +9,16 @@ public class Ssxx {
     private String sjsj;
     private String gdnm;
 
+    private String rzrs = "0";
+
+
+    public String getRzrs() {
+        return rzrs;
+    }
+
+    public void setRzrs(String rzrs) {
+        this.rzrs = rzrs;
+    }
 
     public String getSsnm() {
         return ssnm;

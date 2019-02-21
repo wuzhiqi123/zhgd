@@ -78,6 +78,11 @@ public class SslxxServiceImpl implements SslxxService {
         list.add("ZDRZRS");
         list.add("SJSJ");
         list.add("GDNM");
+        List<String> listRz = new ArrayList<String>();
+        listRz.add("NM");
+        listRz.add("SSNM");
+        listRz.add("RYNM");
+        listRz.add("SJSJ");
         Map<String, List<String>> sqlMap = new HashMap<>();
         if (StringUtils.isEmpty(ssxxParma.getSslxx())) {
             List<String> sql = new ArrayList<String>();
@@ -91,10 +96,28 @@ public class SslxxServiceImpl implements SslxxService {
         try {
             Result result = new Result(ResultEnum.OK);
             Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_SSGL_SSXX", list, sqlMap, null, null);
+            Map<Integer, Map<String, String>> Rzmap = DMIClient.getDMIclient().DMI_FilterParam("RYGL_R_SS_RZ", listRz, null, null, null);
+            Map<String,Integer> res=new HashMap<>();
+            for(Map.Entry<Integer, Map<String, String>> Maprz : Rzmap.entrySet()){
+                for (Map.Entry<String,String> entry:Maprz.getValue().entrySet()){
+                   if("SSNM".equals(entry.getKey())){
+                       if (res.containsKey(entry.getValue())){
+                           res.put(entry.getValue(),res.get(entry.getValue())+1);
+                       }else{
+                           res.put(entry.getValue(),1);
+                       }
+                   }
+                }
+
+            }
             for (Map.Entry<Integer, Map<String, String>> Mapsslxxss : map.entrySet()) {
                 Ssxx ssxx = new Ssxx();
                 for (Map.Entry<String, String> Mapsslxxs : Mapsslxxss.getValue().entrySet()) {
                     if ("SSNM".equals(Mapsslxxs.getKey())) {
+                            if(res.containsKey(Mapsslxxs.getValue())){
+                               Integer rzrs = res.get(Mapsslxxs.getValue());
+                                ssxx.setRzrs(String.valueOf(rzrs));
+                        }
                         ssxx.setSsnm(Mapsslxxs.getValue());
                     }
                     if ("SSL".equals(Mapsslxxs.getKey())) {
