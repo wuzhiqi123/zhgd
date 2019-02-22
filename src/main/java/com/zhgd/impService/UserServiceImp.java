@@ -50,6 +50,8 @@ public class UserServiceImp implements UserService {
         list.add("YHNM");
         list.add("KHH");
         list.add("YHKH");
+        list.add("NM");
+        list.add("SSNM");
 /*        String stringQyCondition = null;
         if(!StringUtils.isEmpty(worker.getDwnm())){
             stringQyCondition = "DWNM = '"+worker.getDwnm()+"'";
@@ -73,7 +75,6 @@ public class UserServiceImp implements UserService {
             sql.add(worker.getBznm());
             sqlMap.put("BZNM",sql);
         }
-
         try {
             Result result = new Result(ResultEnum.OK);
             Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_RYXX_VIEW", list, sqlMap, null, null);
@@ -169,6 +170,12 @@ public class UserServiceImp implements UserService {
                     }
                     if("YHKH".equals(user.getKey())){
                         workers.setYhkh(user.getValue());
+                    }
+                    if("NM".equals(user.getKey())){
+                        workers.setNm(user.getValue());
+                    }
+                    if("SSNM".equals(user.getKey())){
+                        workers.setSsnm(user.getValue());
                     }
                 }
                 workersList.add(workers);

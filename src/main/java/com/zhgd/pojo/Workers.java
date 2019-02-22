@@ -81,7 +81,27 @@ public class Workers {
 
     //银行卡号
     private String yhkh;
+    //入住内码
+    private String nm;
+    //宿舍内码
+    private String ssnm;
 
+
+    public String getNm() {
+        return nm;
+    }
+
+    public void setNm(String nm) {
+        this.nm = nm;
+    }
+
+    public String getSsnm() {
+        return ssnm;
+    }
+
+    public void setSsnm(String ssnm) {
+        this.ssnm = ssnm;
+    }
 
     public String getSrc() {
         return src;
