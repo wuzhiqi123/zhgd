@@ -22,4 +22,6 @@ public interface DictionaryService {
 
     Result getPxlx();
 
+    Result getJllx();
+
 }

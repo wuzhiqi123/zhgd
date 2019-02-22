@@ -123,18 +123,22 @@ public class DictionaryServiceImpl implements DictionaryService {
         list.add("XH");
         list.add("BZMC");
         Map<String,List<String>> sqlMap = new HashMap<>();
-        if(StringUtils.isEmpty(bzPaarma.getNm()) && StringUtils.isEmpty(bzPaarma.getMc())){
+        if(StringUtils.isEmpty(bzPaarma.getDwmc())&&StringUtils.isEmpty(bzPaarma.getDwnm())&& StringUtils.isEmpty(bzPaarma.getBznm()) && StringUtils.isEmpty(bzPaarma.getBzmc())){
             List<String> sql = new ArrayList<String>();
             sql.add("1");
             sqlMap.put("1",sql);
-        }else if(!StringUtils.isEmpty(bzPaarma.getNm())){
+        }else if(!StringUtils.isEmpty(bzPaarma.getDwnm())){
             List<String> sql = new ArrayList<String>();
-            sql.add(bzPaarma.getNm());
+            sql.add(bzPaarma.getDwnm());
             sqlMap.put("SSGCDWNM",sql);
-        }else if(!StringUtils.isEmpty(bzPaarma.getMc())){
+        }else if(!StringUtils.isEmpty(bzPaarma.getBzmc())){
             List<String> sql = new ArrayList<String>();
-            sql.add(bzPaarma.getMc());
+            sql.add(bzPaarma.getBzmc());
             sqlMap.put("BZMC",sql);
+        }else if(!StringUtils.isEmpty(bzPaarma.getBznm())){
+            List<String> sql = new ArrayList<String>();
+            sql.add(bzPaarma.getBzmc());
+            sqlMap.put("BZNM",sql);
         }
         try{
             Map<Integer, Map<String,String>> map = DMIClient.getDMIclient().DMI_FilterParam("JBXX_S_LW_GCBZ",list,sqlMap,null,null);
@@ -363,4 +367,38 @@ public class DictionaryServiceImpl implements DictionaryService {
         }
         return result;
     };
+
+
+    public Result getJllx(){
+        Result result = new Result(ResultEnum.OK);
+        List<Dictionary> dictionaries = new ArrayList<Dictionary>();
+        List<String> list = new ArrayList<String>();
+        list.add("JLLXNM");
+        list.add("XH");
+        list.add("JLLXMC");
+        try{
+            Map<Integer, Map<String,String>> map = DMIClient.getDMIclient().DMI_FilterParam("JBXX_S_LW_JLLX",list,null,"","");
+            for(Map.Entry<Integer,Map<String,String> > resourceMap :map.entrySet()){
+                Dictionary dictionary = new Dictionary();
+                for (Map.Entry<String ,String > resource : resourceMap.getValue().entrySet()) {
+                    if("JLLXNM".equals(resource.getKey())){
+                        dictionary.setNm(resource.getValue());
+                    }
+                    if("XH".equals(resource.getKey())){
+                        dictionary.setXh(resource.getValue());
+                    }
+                    if("JLLXMC".equals(resource.getKey())){
+                        dictionary.setMc(resource.getValue());
+                    }
+                }
+                dictionaries.add(dictionary);
+            }
+            result.setDataa(dictionaries);
+        }catch(Exception e){
+            Result resultError = new Result(ResultEnum.ERROR);
+            return resultError;
+        }
+        return result;
+    };
+
 }

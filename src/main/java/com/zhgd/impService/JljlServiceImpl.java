@@ -174,9 +174,9 @@ public class JljlServiceImpl implements JljlService {
         JljlAdd jljlAdd = new JljlAdd();
         jljlAdd.setJLNM(jljl.getJlnm());
         //jljl.getJllxnm()
-        jljlAdd.setJLLXNM("1");
+        jljlAdd.setJLLXNM(jljl.getJllxnm());
         //jljl.getJllx()
-        jljlAdd.setJLLX("1");
+        jljlAdd.setJLLX(jljl.getJllx());
         jljlAdd.setSFBZ(jljl.getSfbz());
         jljlAdd.setRYNM(jljl.getRynm());
         jljlAdd.setSJLGR(jljl.getSjlgr());

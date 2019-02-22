@@ -112,4 +112,14 @@ public class DictionaryController {
     public Result getPxlx(){
         return dictionaryService.getPxlx();
     }
+
+    /**
+     * 获取奖励类型
+     * @return
+     */
+    @RequestMapping(value  = "/getJllx" ,method = RequestMethod.POST)
+    @ResponseBody
+    public Result getJllx(){
+        return dictionaryService.getJllx();
+    }
 }

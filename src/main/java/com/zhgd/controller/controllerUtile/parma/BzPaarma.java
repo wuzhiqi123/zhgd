@@ -1,22 +1,40 @@
 package com.zhgd.controller.controllerUtile.parma;
 
 public class BzPaarma {
-    private String mc;
-    private String nm;
+    private String bzmc;
+    private String bznm;
+    private String dwmc;
+    private String dwnm;
 
-    public String getMc() {
-        return mc;
+    public String getBzmc() {
+        return bzmc;
     }
 
-    public void setMc(String mc) {
-        this.mc = mc;
+    public void setBzmc(String bzmc) {
+        this.bzmc = bzmc;
     }
 
-    public String getNm() {
-        return nm;
+    public String getBznm() {
+        return bznm;
     }
 
-    public void setNm(String nm) {
-        this.nm = nm;
+    public void setBznm(String bznm) {
+        this.bznm = bznm;
+    }
+
+    public String getDwmc() {
+        return dwmc;
+    }
+
+    public void setDwmc(String dwmc) {
+        this.dwmc = dwmc;
+    }
+
+    public String getDwnm() {
+        return dwnm;
+    }
+
+    public void setDwnm(String dwnm) {
+        this.dwnm = dwnm;
     }
 }
