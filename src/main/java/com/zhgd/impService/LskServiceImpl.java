@@ -34,18 +34,29 @@ public class LskServiceImpl implements LskService {
         list.add("BZ");
         list.add("SJSJ");
         list.add("GDNM");
-        List<String> sql = new ArrayList<String>();
         Map<String, List<String>> sqlMap = new HashMap<>();
+        String stringQY = null;
+        Map<String,String> stringMap = new HashMap<>() ;
+
         if ("0".equals(lskParma.getZt())) {
+            List<String> sql = new ArrayList<String>();
             sql.add("1");
             sqlMap.put("1", sql);
         } else {
+            List<String> sql = new ArrayList<String>();
             sql.add(lskParma.getZt());
             sqlMap.put("ZT", sql);
         }
+        if(!StringUtils.isEmpty(lskParma.getParma())){
+            stringQY = "CKRXM like '%"+lskParma.getParma()+"%' or KH like '%" + lskParma.getParma()+"%'";
+        }else{
+            stringQY = "1=1";
+        }
         try{
             Result result = new Result(ResultEnum.OK);
-            Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_LSKGL_LSKXX", list, sqlMap, null, null);
+            stringMap.put("SQL",stringQY);
+            JSONArray jsonObject = JSONArray.fromObject(stringMap);
+            Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_LSKGL_LSKXX", list, sqlMap, null, jsonObject.toString());
             for(Map.Entry<Integer,Map<String ,String>> lskMaps:map.entrySet()){
                 Lsk lsk = new Lsk();
                 for(Map.Entry<String,String> lskMap :lskMaps.getValue().entrySet()){

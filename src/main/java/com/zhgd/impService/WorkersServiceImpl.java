@@ -39,7 +39,6 @@ public class WorkersServiceImpl implements WorkersService {
            String TRANSID = DMIClient.getDMIclient().DMI_TransBegin("RYGL_RYXX_JBXX",null);
            Map<String,String> TRANSMap = new HashMap<>() ;
             TRANSMap.put("TRANSID",TRANSID);
-            //JSONObject jsonObject1 = JSONObject.fromObject(TRANSMap);
             JSONArray jsonArray = JSONArray.fromObject(TRANSMap);
            int userInt = DMIClient.getDMIclient().DMI_UpdateData("RYGL_RYXX_JBXX",userMap,jsonArray.toString());
            if(userInt == 0){
@@ -52,7 +51,7 @@ public class WorkersServiceImpl implements WorkersService {
                int lwxxInt = DMIClient.getDMIclient().DMI_UpdateData("RYGL_RYXX_LWXX",UserExpandMap,jsonArray.toString());
                if(lwxxInt == 0){
                    int mtxx1 = 0;
- /*                  List<MtxxAdd> mtxxList = mtxx(workers);
+                   List<MtxxAdd> mtxxList = mtxx(workers);
                    for(MtxxAdd mtxxAdd :mtxxList){
                        JSONObject jsonmtxxAdd=  JSONObject.fromObject(mtxxAdd);
                        Map<String ,String > mtxxAddmap = (Map)jsonmtxxAdd;
@@ -67,7 +66,7 @@ public class WorkersServiceImpl implements WorkersService {
                            resultError.setDataa("程序错误,员工添加失败");
                            return resultError;
                        }
-                   }*/
+                   }
                   if(mtxx1 == 0){
                       int comit =  DMIClient.getDMIclient().DMI_TransCommit("RYGL_RYXX_JBXX",jsonArray.toString());
                       if(comit == 0){
@@ -122,6 +121,7 @@ public class WorkersServiceImpl implements WorkersService {
         List<MtxxAdd> mtxxList = new ArrayList<MtxxAdd>();
             MtxxAdd mtxxAdd1 = new MtxxAdd();
             mtxxAdd1.setRYNM(w.getRynm());
+            mtxxAdd1.setNM(UUIDUtile.uuid());
             //
         if(w.getSrc().split(",").length>1){
             mtxxAdd1.setZP(w.getSrc().split(",")[1]);

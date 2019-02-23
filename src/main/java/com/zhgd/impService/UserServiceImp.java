@@ -180,7 +180,18 @@ public class UserServiceImp implements UserService {
                 }
                 workersList.add(workers);
             }
-            result.setDataa(workersList);
+            Map<String, Integer> workersMap = new HashMap<String,Integer>();
+            for (Workers a : workersList) {
+                if (workersMap.containsKey(a.getGrjcrq())) {
+                    workersMap.put(a.getGrjcrq(),workersMap.get(a.getGrjcrq())+1)   ;
+                } else {
+                    workersMap.put(a.getGrjcrq(), 1);
+                }
+            }
+            Map<String, Object> ObjectMap = new HashMap<String,Object>();
+            ObjectMap.put("workersList",workersList);
+            ObjectMap.put("workersMap",workersMap);
+            result.setDataa(ObjectMap);
             return result;
         }catch(Exception e){
             Result result = new Result(ResultEnum.ERROR);
