@@ -52,14 +52,18 @@ public class JljlServiceImpl implements JljlService {
             List<String> sql = new ArrayList<String>();
             sql.add(jljlParma.getJlr());
             sqlMap.put("SFBZ",sql);
-        }else {
-            List<String> sql = new ArrayList<String>();
-            sql.add(jljlParma.getJlr());
-            sqlMap.put("RYNM",sql);
+        }
+
+        String stringQY = null;
+        Map<String,String> stringMap = new HashMap<>() ;
+        if (!StringUtils.isEmpty(jljlParma.getRy())){
+            stringQY = "(SJLGR like '%"+jljlParma.getRy()+"%'"+" or  SJLBZ like '%"+jljlParma.getRy()+"%')";
         }
         try {
+            stringMap.put("SQL",stringQY);
+            JSONArray jsonObject = JSONArray.fromObject(stringMap);
             Result result = new Result(ResultEnum.OK);
-            Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_JLJL", list, sqlMap, null, null);
+            Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_JLJL", list, sqlMap, null, jsonObject.toString());
             for (Map.Entry<Integer, Map<String, String>> MapJljls : map.entrySet()) {
                 Jljl jljl = new Jljl();
                 for (Map.Entry<String, String> Mapsslxxs : MapJljls.getValue().entrySet()) {

@@ -2,6 +2,7 @@ package com.zhgd.service;
 
 import com.zhgd.controller.controllerUtile.Result;
 import com.zhgd.controller.controllerUtile.parma.BzPaarma;
+import com.zhgd.controller.controllerUtile.parma.DwParma;
 
 public interface DictionaryService {
     Result getWhcd();
@@ -10,7 +11,7 @@ public interface DictionaryService {
 
     Result getGd();
 
-    Result getGrssdw();
+    Result getGrssdw(DwParma dwParma);
 
     Result getGrssbz(BzPaarma bzPaarma);
 

@@ -1,10 +1,15 @@
 package com.zhgd.impService;
 
+import com.zhgd.controller.controllerUtile.MapSort;
 import com.zhgd.controller.controllerUtile.Result;
 import com.zhgd.controller.controllerUtile.ResultEnum;
+import com.zhgd.controller.controllerUtile.parma.ZpParma;
 import com.zhgd.pojo.Workers;
+import com.zhgd.pojo.Zp;
 import com.zhgd.service.UserService;
 import com.zhgd.utile.DMIClient;
+import com.zhgd.utile.Pzdq;
+import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -52,11 +57,15 @@ public class UserServiceImp implements UserService {
         list.add("YHKH");
         list.add("NM");
         list.add("SSNM");
+        list.add("SFZZP");
+        list.add("ZDYZP");
 /*        String stringQyCondition = null;
         if(!StringUtils.isEmpty(worker.getDwnm())){
             stringQyCondition = "DWNM = '"+worker.getDwnm()+"'";
         }*/
         Map<String,List<String>> sqlMap = new HashMap<>();
+        String stringQY = null;
+        Map<String,String> stringMap = new HashMap<>() ;
         if(StringUtils.isEmpty(worker.getDwnm())){
             List<String> sql = new ArrayList<String>();
             sql.add("1");
@@ -75,9 +84,14 @@ public class UserServiceImp implements UserService {
             sql.add(worker.getBznm());
             sqlMap.put("BZNM",sql);
         }
+        if(!StringUtils.isEmpty(worker.getGrkh())){
+            stringQY = "(XM like '%"+worker.getGrkh()+"%'  OR   LXDH like '%"+worker.getGrkh()+"%')";
+        }
+        stringMap.put("SQL",stringQY);
+        JSONArray jsonObject = JSONArray.fromObject(stringMap);
         try {
             Result result = new Result(ResultEnum.OK);
-            Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_RYXX_VIEW", list, sqlMap, null, null);
+            Map<Integer, Map<String, String>> map = DMIClient.getDMIclient().DMI_FilterParam("RYGL_RYXX_VIEW", list, sqlMap, null, jsonObject.toString());
             for (Map.Entry<Integer, Map<String, String>> users : map.entrySet()) {
                 Workers workers = new Workers();
                 for (Map.Entry<String, String> user : users.getValue().entrySet()) {
@@ -177,6 +191,21 @@ public class UserServiceImp implements UserService {
                     if("SSNM".equals(user.getKey())){
                         workers.setSsnm(user.getValue());
                     }
+                    if("SFZZP".equals(user.getKey()) && !"".equals(user.getValue())){
+                        String img = "data:image/jpg;base64,";
+                        String sfzzp =  img+user.getValue();
+                        workers.setSfzzp(sfzzp);
+                        if(!StringUtils.isEmpty(user.getValue())){
+                            workers.setImage(sfzzp);
+                        }
+                    }
+                    if("ZDYZP".equals(user.getKey())){
+                        String zdyzp = "data:image/jpg;base64,"+user.getValue();
+                        workers.setZdyzp(zdyzp);
+                        if(!StringUtils.isEmpty(user.getValue()) && !"".equals(user.getValue())){
+                            workers.setImage(zdyzp);
+                        }
+                    }
                 }
                 workersList.add(workers);
             }
@@ -188,9 +217,11 @@ public class UserServiceImp implements UserService {
                     workersMap.put(a.getGrjcrq(), 1);
                 }
             }
+            //map排序
+            Map<String, Integer> resultMap = MapSort.sortMapByKey(workersMap);
             Map<String, Object> ObjectMap = new HashMap<String,Object>();
             ObjectMap.put("workersList",workersList);
-            ObjectMap.put("workersMap",workersMap);
+            ObjectMap.put("workersMap",resultMap);
             result.setDataa(ObjectMap);
             return result;
         }catch(Exception e){
@@ -199,15 +230,78 @@ public class UserServiceImp implements UserService {
             return result;
         }
     }
+    public Result getZp(ZpParma zpParma){
+        List<String> list = new ArrayList<String>();
+        List<Zp> zpList = new ArrayList<>();
+        Map<String,List<String>> sqlMap = new HashMap<>();
+        list.add("RYNM");
+        list.add("ZP");
+        list.add("SJSJ");
+        list.add("NM");
+        list.add("ZPLX");
+        if(zpParma.getNm() ==null && zpParma.getNm()=="" && zpParma.getRynm()==null && zpParma.getRynm()=="" && zpParma.getRynmList().size() == 0 ){
+            List<String> sql = new ArrayList<String>();
+            sql.add("1");
+            sqlMap.put("1",sql);
+        }else if(zpParma.getNm() !=null && zpParma.getNm() !=""){
+            List<String> sql = new ArrayList<String>();
+            sql.add(zpParma.getNm());
+            sqlMap.put("NM",sql);
+        }else if(zpParma.getRynm()!=null && zpParma.getRynm()!=""){
+            List<String> sql = new ArrayList<String>();
+            sql.add(zpParma.getRynm());
+            sqlMap.put("RYNM",sql);
+        }else if(zpParma.getRynmList().size()>0){
+            sqlMap.put("RYNM",zpParma.getRynmList());
+        }
+        try{
+            Map<Integer, Map<String, String>> zpmap = DMIClient.getDMIclient().DMI_FilterParam("RYGL_RYXX_MTXX", list,sqlMap, null, null);
+            for (Map.Entry<Integer, Map<String, String>> zpM : zpmap.entrySet()) {
+                Zp zp = new Zp();
+                for(Map.Entry<String,String> zpBen: zpM.getValue().entrySet()){
+                    if("RYNM".equals(zpBen.getKey())){
+                        zp.setRynm(zpBen.getValue());
+                    }
+                    if("ZP".equals(zpBen.getKey())){
+                        zp.setZp(zpBen.getValue());
+                    }
+                    if("SJSJ".equals(zpBen.getKey())){
+                        zp.setSjsj(zpBen.getValue());
+                    }
+                    if("NM".equals(zpBen.getKey())){
+                        zp.setNm(zpBen.getValue());
+                    }
+                    if("ZPLX".equals(zpBen.getKey())){
+                        zp.setZplx(zpBen.getValue());
+                    }
+                }
+                zpList.add(zp);
+            }
+            Result result = new Result(ResultEnum.OK);
+            result.setDataa(zpList);
+            return result;
+        }catch(Exception e){
+            Result result = new Result(ResultEnum.ERROR);
+            result.setDataa(e.getMessage());
+            return result;
+        }
+    };
+
     @Override
     public Result deleteUser(List<String> nms){
         Map<String,List<String>> map = new HashMap<>();
         map.put("RYNM",nms);
         try{
-            Result result = new Result(ResultEnum.OK);
             int userInt = DMIClient.getDMIclient().DMI_DeleteData("RYGL_RYXX_JBXX",map,null);
-            result.setDataa(userInt);
-            return result;
+            if(userInt == 0){
+                Result result = new Result(ResultEnum.OK);
+                result.setDataa(userInt);
+                return result;
+            }else{
+                Result result = new Result(ResultEnum.ERROR);
+                return result;
+            }
+
         }catch(Exception e){
             Result result = new Result(ResultEnum.ERROR);
             result.setDataa(e.getMessage());

@@ -7,6 +7,11 @@ import com.zhgd.ucc.UCCalThriftInterfaceClientFactory;
 import com.zhgd.zxc.DMIThriftInterfaceClient;
 import com.zhgd.zxc.DMIThriftInterfaceClientFactory;
 
+import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 public  class DMIClient {
     public static DMIThriftInterfaceClient getDMIclient()throws Exception {
         DMIThriftInterfaceClient client;

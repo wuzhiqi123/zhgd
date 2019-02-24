@@ -3,11 +3,13 @@ package com.zhgd.impService;
 import com.zhgd.controller.controllerUtile.Result;
 import com.zhgd.controller.controllerUtile.ResultEnum;
 import com.zhgd.controller.controllerUtile.parma.BzPaarma;
+import com.zhgd.controller.controllerUtile.parma.DwParma;
 import com.zhgd.pojo.Dictionary;
 import com.zhgd.pojo.Jzgs;
 import com.zhgd.pojo.TreeResult;
 import com.zhgd.service.DictionaryService;
 import com.zhgd.utile.DMIClient;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -83,15 +85,22 @@ public class DictionaryServiceImpl implements DictionaryService {
         return result;
     }
     @Override
-    public Result getGrssdw(){
+    public Result getGrssdw(DwParma dwParma){
         Result result = new Result(ResultEnum.OK);
         List<Dictionary> dictionaries = new ArrayList<Dictionary>();
         List<String> list = new ArrayList<String>();
         list.add("DWNM");
         list.add("XH");
         list.add("DWMC");
+        String stringQY = null;
+        Map<String,String> stringMap = new HashMap<>() ;
+        if(!StringUtils.isEmpty(dwParma.getDwmc())){
+            stringQY = "DWMC like '%"+dwParma.getDwmc()+"%'";
+        }
         try{
-            Map<Integer, Map<String,String>> map = DMIClient.getDMIclient().DMI_FilterParam("JBXX_S_LW_GCDW",list,null,"","");
+            stringMap.put("SQL",stringQY);
+            JSONArray jsonObject = JSONArray.fromObject(stringMap);
+            Map<Integer, Map<String,String>> map = DMIClient.getDMIclient().DMI_FilterParam("JBXX_S_LW_GCDW",list,null,"",jsonObject.toString());
             for(Map.Entry<Integer,Map<String,String> > resourceMap :map.entrySet()){
                 Dictionary dictionary = new Dictionary();
                 for (Map.Entry<String ,String > resource : resourceMap.getValue().entrySet()) {

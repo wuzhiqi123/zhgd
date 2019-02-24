@@ -2,6 +2,7 @@ package com.zhgd.controller;
 
 import com.zhgd.controller.controllerUtile.Result;
 import com.zhgd.controller.controllerUtile.parma.BzPaarma;
+import com.zhgd.controller.controllerUtile.parma.DwParma;
 import com.zhgd.service.DictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,8 +60,8 @@ public class DictionaryController {
      */
     @RequestMapping(value  = "/getGrssdw" ,method = RequestMethod.POST)
     @ResponseBody
-    public Result getGrssdw(){
-        return dictionaryService.getGrssdw();
+    public Result getGrssdw(@RequestBody DwParma dwParma){
+        return dictionaryService.getGrssdw(dwParma);
     }
 
     /**

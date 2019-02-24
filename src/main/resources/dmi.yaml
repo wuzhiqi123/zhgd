@@ -1,0 +1,6 @@
+dmi:
+  stringIP : "192.168.0.144"
+  port : 9132
+ucc:
+  stringIP : "127.0.0.1"
+  port : 9133

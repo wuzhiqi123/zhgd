@@ -85,7 +85,48 @@ public class Workers {
     private String nm;
     //宿舍内码
     private String ssnm;
+    //身份证照片
+    private String sfzzp;
+    //拍照照片  自定义照片
+    private String zdyzp;
+    //图片展示
+    private String image;
 
+    //工人卡号或姓名
+    private String grkh;
+
+
+    public String getGrkh() {
+        return grkh;
+    }
+
+    public void setGrkh(String grkh) {
+        this.grkh = grkh;
+    }
+
+    public String getZdyzp() {
+        return zdyzp;
+    }
+
+    public void setZdyzp(String zdyzp) {
+        this.zdyzp = zdyzp;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getSfzzp() {
+        return sfzzp;
+    }
+
+    public void setSfzzp(String sfzzp) {
+        this.sfzzp = sfzzp;
+    }
 
     public String getNm() {
         return nm;

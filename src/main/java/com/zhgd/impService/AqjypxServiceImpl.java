@@ -39,6 +39,7 @@ public class AqjypxServiceImpl implements AqjypxService {
             Map<String,String> TRANSMap = new HashMap<>() ;
             TRANSMap.put("TRANSID",TRANSID);
             JSONArray jsonArray = JSONArray.fromObject(TRANSMap);
+            aqjypxMap.remove("FJ");
             int aqjypxInt = DMIClient.getDMIclient().DMI_UpdateData("RYGL_AQJYPX",aqjypxMap,jsonArray.toString());
             if(aqjypxInt == 0){
                 List<AqjypxRy> aqjypxRy = aqjypxRyUtile(addAqjyox);

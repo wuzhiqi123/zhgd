@@ -119,22 +119,28 @@ public class WorkersServiceImpl implements WorkersService {
     }
     public List<MtxxAdd> mtxx(Workers w){
         List<MtxxAdd> mtxxList = new ArrayList<MtxxAdd>();
-            MtxxAdd mtxxAdd1 = new MtxxAdd();
-            mtxxAdd1.setRYNM(w.getRynm());
-            mtxxAdd1.setNM(UUIDUtile.uuid());
             //
         if(w.getSrc().split(",").length>1){
-            mtxxAdd1.setZP(w.getSrc().split(",")[1]);
+            if(w.getSrc().split(",")[1] != null && w.getSrc().split(",")[1]!= ""){
+                MtxxAdd mtxxAdd1 = new MtxxAdd();
+                mtxxAdd1.setRYNM(w.getRynm());
+                mtxxAdd1.setNM(UUIDUtile.uuid());
+                mtxxAdd1.setZP(w.getSrc().split(",")[1]);
+                mtxxAdd1.setZPLX("0");
+                mtxxList.add(mtxxAdd1);
+            }
+
         }
-            MtxxAdd mtxxAdd2 = new MtxxAdd();
-            mtxxAdd2.setRYNM(w.getRynm());
             //
             if(w.getPaizhao().split(",").length>1){
-                mtxxAdd2.setZP(w.getPaizhao().split(",")[1]);
+                if(w.getPaizhao().split(",")[1] !=null && w.getPaizhao().split(",")[1] != ""){
+                    MtxxAdd mtxxAdd2 = new MtxxAdd();
+                    mtxxAdd2.setRYNM(w.getRynm());
+                    mtxxAdd2.setZP(w.getPaizhao().split(",")[1]);
+                    mtxxAdd2.setZPLX("1");
+                    mtxxList.add(mtxxAdd2);
+                }
             }
-            mtxxList.add(mtxxAdd1);
-            mtxxList.add(mtxxAdd2);
-
         return mtxxList;
     }
     public User userUtile(Workers w){

@@ -48,7 +48,7 @@ public class LskServiceImpl implements LskService {
             sqlMap.put("ZT", sql);
         }
         if(!StringUtils.isEmpty(lskParma.getParma())){
-            stringQY = "CKRXM like '%"+lskParma.getParma()+"%' or KH like '%" + lskParma.getParma()+"%'";
+            stringQY = "(CKRXM like '%"+lskParma.getParma()+"%' or KH like '%" + lskParma.getParma()+"%')";
         }else{
             stringQY = "1=1";
         }
